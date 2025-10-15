@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignIdFor(\App\Models\Category::class);
+            $table->foreignIdFor(\App\Models\Recipe::class);
         });
     }
 
