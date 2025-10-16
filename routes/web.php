@@ -14,6 +14,9 @@ Route::get('/about-us', [HomeController::class, 'About_us'])->name('about_us');
 Route::get('/recipes/show', [RecipeController::class, 'show'])->name('show');
 
 
+Route::get('/recipes/create', [RecipeController::class, 'store'])->name('create');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
