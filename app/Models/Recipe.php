@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Recipe extends Model
+{
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function categories ()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class);
+    }
+}
