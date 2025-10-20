@@ -7,9 +7,23 @@
             </a>
         </div>
         <div class="">
-            <x-nav-link href="/my-recipes">My recipes</x-nav-link>
-            <x-nav-link href="/about-us">About us</x-nav-link>
-            <x-nav-link href="/contact-page">Contact</x-nav-link>
+            <div>
+                <x-nav-link href="/my-recipes">My recipes</x-nav-link>
+                <x-nav-link href="/about-us">About us</x-nav-link>
+                <x-nav-link href="/contact-page">Contact</x-nav-link>
+            </div>
+            <div>
+                <label for="site-search"></label>
+                <input type="search" id="site-search" name="q">
+
+                <button>Search</button>
+            </div>
+
+            <div>
+                <x-nav-link href="/recipes/create">Publish a recipe</x-nav-link>
+                <x-nav-link href="/login">Login</x-nav-link>
+                <x-nav-link href="/register">Register</x-nav-link>
+            </div>
         </div>
         <div>
 

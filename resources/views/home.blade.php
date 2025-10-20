@@ -1,4 +1,6 @@
 <x-layout>
-    <p>Home</p>
+    <h2>Published Recipes</h2>
+
+
 </x-layout>
 

@@ -10,6 +10,10 @@ Route::get('/contact-page', [HomeController::class, 'Contact'])->name('contact')
 
 Route::get('/about-us', [HomeController::class, 'About_us'])->name('about_us');
 
+Route::get('/login', [HomeController::class, 'Log_in'])->name('login');
+
+Route::get('/register', [HomeController::class, 'Register'])->name('register');
+
 
 Route::get('/recipes/show', [RecipeController::class, 'show'])->name('show');
 

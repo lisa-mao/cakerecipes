@@ -20,4 +20,14 @@ class HomeController extends Controller
     {
         return view('/about-us');
     }
+
+    public function Log_in()
+    {
+        return view('/login');
+    }
+
+    public function Register()
+    {
+        return view('/register');
+    }
 }

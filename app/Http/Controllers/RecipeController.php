@@ -47,7 +47,7 @@ class RecipeController extends Controller
 
         $recipe->save();
 
-        return redirect()->route('recipes.index');
+//        return redirect()->route('/home');
 
         //beveiliging
         //data terug schrijven in de form fields
