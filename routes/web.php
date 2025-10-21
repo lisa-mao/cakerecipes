@@ -15,10 +15,14 @@ Route::get('/login', [HomeController::class, 'Log_in'])->name('login');
 Route::get('/register', [HomeController::class, 'Register'])->name('register');
 
 
-Route::get('/recipes/show', [RecipeController::class, 'show'])->name('show');
+
+Route::get('/recipes/create', [HomeController::class, 'create'])->name('create');
+
+Route::post('/recipes/recipe-card', [RecipeController::class, 'store'])->name('recipes/recipe-card.create'); //creating recipes
+
+Route::get('/recipes/show', [RecipeController::class, 'show'])->name('show'); //showing recipes
 
 
-Route::get('/recipes/create', [RecipeController::class, 'store'])->name('create');
 
 
 

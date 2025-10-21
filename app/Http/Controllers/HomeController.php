@@ -30,4 +30,9 @@ class HomeController extends Controller
     {
         return view('/register');
     }
+
+    public function create()
+    {
+        return view('/recipes/create');
+    }
 }

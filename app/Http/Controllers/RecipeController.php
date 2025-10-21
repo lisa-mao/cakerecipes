@@ -32,20 +32,28 @@ class RecipeController extends Controller
     public function store(Request $request)
 
     {
-        //validatie
-        $request->validate([
-            'name' => 'required|max:100',
-            'ingredient' => 'required'
-        ]);
-        //error tonen
+        dump(request()->get('name', null));
 
-        $recipe = new Recipe();
-        $recipe->name = "choco cake";
-        $recipe->time = 60;
-        $recipe->ingredient = "choco and cake";
-        $recipe->category = 2;
+
+        $recipe = new Recipe([
+            'name' => 'name'
+        ]);
 
         $recipe->save();
+        //validatie
+//        $request->validate([
+//            'name' => 'required|max:100',
+//            'ingredient' => 'required'
+//        ]);
+//        //error tonen
+//
+
+//        $recipe->name = "choco cake";
+//        $recipe->time = 60;
+//        $recipe->ingredient = "choco and cake";
+//        $recipe->category = 2;
+//
+//
 
 //        return redirect()->route('/home');
 
@@ -56,8 +64,9 @@ class RecipeController extends Controller
 
     public  function create()
     {
-        $categories = Category::all();
-        return view('recipes.create', $categories);
+
+//        $categories = Category::all();
+//        return view('recipes.create', $categories);
     }
 
 }
