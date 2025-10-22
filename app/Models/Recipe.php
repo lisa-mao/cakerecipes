@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
+    protected $fillable = [
+        'name',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class);

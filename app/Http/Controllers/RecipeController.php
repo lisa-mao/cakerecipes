@@ -9,37 +9,48 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
-    public function show($id){
+    public function show($id)
+    {
         $recipe = new Recipe();
-    $recipe = Recipe::findOrFail(1);
+        $recipe = Recipe::findOrFail(1);
 
-    if (!$recipe){
-        redirect('/');
-    }
+        if (!$recipe) {
+            redirect('/');
+        }
 
-        $recipe->name ='Chiffon Cake';
+        $recipe->name = 'Chiffon Cake';
         $recipe->time = 60;
 
-        return view('recipes.show',compact('recipe'));
-
-
+        return view('recipes.show', compact('recipe'));
 
 
     }
-
 
 
     public function store(Request $request)
 
     {
-        dump(request()->get('name', null));
-
-
-        $recipe = new Recipe([
-            'name' => 'name'
+        $request->validate([
+            'name' => 'required|max:100',
+            'ingredient' => 'required'
         ]);
 
-        $recipe->save();
+        $recipe = new Recipe([
+
+            //validatie
+
+
+            'name' => request()->input('name', ''),
+            'ingredient' => request()->input('ingredient', ''),
+            'instruction' => request()->input('instruction', ''),
+            'category' => request()->input('category', '')
+
+
+        ]);
+
+
+        return redirect()->route('home');
+//        $recipe->save();
         //validatie
 //        $request->validate([
 //            'name' => 'required|max:100',
@@ -55,14 +66,14 @@ class RecipeController extends Controller
 //
 //
 
-//        return redirect()->route('/home');
+//
 
         //beveiliging
         //data terug schrijven in de form fields
         //
     }
 
-    public  function create()
+    public function create()
     {
 
 //        $categories = Category::all();
