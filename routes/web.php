@@ -20,7 +20,7 @@ Route::get('/recipes/create', [HomeController::class, 'create'])->name('create')
 
 Route::post('/recipes/recipe-card', [RecipeController::class, 'store'])->name('recipes/recipe-card.create'); //creating recipes
 
-Route::get('/recipes/show', [RecipeController::class, 'show'])->name('show'); //showing recipes
+Route::get('/recipes/show/{id}', [RecipeController::class, 'show'])->name('show'); //showing recipes
 
 
 

@@ -8,6 +8,8 @@ class HomeController extends Controller
 {
     public function Home()
     {
+        // alle
+        // $allRecipes =
         return view('/home');
     }
 

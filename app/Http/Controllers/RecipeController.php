@@ -12,7 +12,7 @@ class RecipeController extends Controller
     public function show($id)
     {
         $recipe = new Recipe();
-        $recipe = Recipe::findOrFail(1);
+//        $recipe = Recipe::findOrFail(1);
 
         if (!$recipe) {
             redirect('/');
@@ -21,7 +21,7 @@ class RecipeController extends Controller
         $recipe->name = 'Chiffon Cake';
         $recipe->time = 60;
 
-        return view('recipes.show', compact('recipe'));
+        return view('/recipes/show', compact('recipe'));
 
 
     }
@@ -30,9 +30,13 @@ class RecipeController extends Controller
     public function store(Request $request)
 
     {
+
+//        if(auth()->user()->isAdmin()){
+//
+//        }
         $request->validate([
             'name' => 'required|max:100',
-            'ingredient' => 'required'
+            'category' => 'required'
         ]);
 
         $recipe = new Recipe([
@@ -41,7 +45,6 @@ class RecipeController extends Controller
 
 
             'name' => request()->input('name', ''),
-            'ingredient' => request()->input('ingredient', ''),
             'instruction' => request()->input('instruction', ''),
             'category' => request()->input('category', '')
 

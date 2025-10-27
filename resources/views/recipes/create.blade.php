@@ -10,11 +10,6 @@
         </label>
         <input type="text" name="name" id="name" value="{{old('description')}}">
 
-        <label for="ingredient">
-            ingredient
-        </label>
-        <input type="text" name="ingredient" id="ingredient" value="{{old('description')}}">
-
         <label for="instruction">
             instruction
         </label>
