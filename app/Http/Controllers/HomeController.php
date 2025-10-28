@@ -8,33 +8,47 @@ class HomeController extends Controller
 {
     public function Home()
     {
+        @dump(\Auth::check());
         // alle
         // $allRecipes =
-        return view('/home');
+        return view('home');
     }
+    public function Dashboard()
+    {
+        return view('dashboard');
+    }
+
 
     public function Contact()
     {
-        return view('/contact-page');
+        return view('contact-page');
     }
 
     public function About_us()
     {
-        return view('/about-us');
+        return view('about-us');
     }
 
     public function Log_in()
     {
-        return view('/login');
+        return view('auth.login');
     }
 
     public function Register()
     {
-        return view('/register');
+        return view('/auth.register');
     }
 
     public function create()
     {
         return view('/recipes/create');
     }
+
+
+    public function My_recipes()
+    {
+        return view('/my-recipes');
+    }
+
+
 }
