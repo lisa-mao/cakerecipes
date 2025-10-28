@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('instruction');
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->string('title');
+            $table->string('total_time');
+            $table->string('description');
             $table->string('user')->unique();
+            $table->string('prep_time');
+            $table->string('serving');
             $table->string('category');
 
             $table->foreignId('category_id')->constrained();
 
-            $table->string('comment');
-            $table->string('time');
             $table->rememberToken();
             $table->timestamps();
         });

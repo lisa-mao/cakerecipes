@@ -4,46 +4,45 @@
         <!-- Main flex container for desktop layout -->
         <div class="flex justify-between items-center h-16">
 
-            <!-- GUEST NAVIGATION: LEFT (Logo + Links), CENTER (Search), RIGHT (Auth) -->
+
+            <!-- LEFT SECTION: Logo and Main Links -->
+            <div class="flex items-center space-x-8">
+                <!-- Logo -->
+                <div class="shrink-0">
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
+                    </a>
+                </div>
+                <!-- Navigation Links -->
+                <!-- Increased spacing here (space-x-6) -->
+                <div class="hidden sm:flex space-x-6">
+                    <x-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
+                        {{ __('My recipes') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('about-us')" :active="request()->routeIs('about-us')">
+                        {{ __('About us') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                        {{ __('Contact') }}
+                    </x-nav-link>
+                </div>
+            </div>
+
+
+            <div class="flex-1 max-w-md hidden lg:block mx-16">
+                <div class="relative">
+                    <input type="search" placeholder="Search for recipes..."
+                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-lg shadow-sm py-2 px-4 pl-10 text-sm transition duration-150 ease-in-out">
+                    <!-- Search Icon -->
+                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
             @guest
-                <!-- LEFT SECTION: Logo and Main Links -->
-                <div class="flex items-center space-x-8">
-                    <!-- Logo -->
-                    <div class="shrink-0">
-                        <a href="{{ route('home') }}">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
-                        </a>
-                    </div>
-                    <!-- Navigation Links -->
-                    <!-- Increased spacing here (space-x-6) -->
-                    <div class="hidden sm:flex space-x-6">
-                        <x-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
-                            {{ __('My recipes') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('about-us')" :active="request()->routeIs('about-us')">
-                            {{ __('About us') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-                            {{ __('Contact') }}
-                        </x-nav-link>
-                    </div>
-                </div>
-
-                <!-- CENTER SECTION: Search Bar (Hidden on small screens, max-width on larger ones) -->
-                <!-- Increased margin here (mx-16) to push sides out -->
-                <div class="flex-1 max-w-md hidden lg:block mx-16">
-                    <div class="relative">
-                        <input type="search" placeholder="Search for recipes..."
-                               class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-lg shadow-sm py-2 px-4 pl-10 text-sm transition duration-150 ease-in-out">
-                        <!-- Search Icon -->
-                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                </div>
-
                 <!-- RIGHT SECTION: Auth Links -->
                 <!-- Increased spacing here (space-x-6) -->
                 <div class="hidden sm:flex items-center space-x-6">
@@ -54,8 +53,8 @@
                         {{ __('Register') }}
                     </x-nav-link>
                 </div>
-            @endguest
 
+            @endguest
             <!-- AUTHENTICATED NAVIGATION (Unmodified, but structurally repositioned for correctness) -->
             @auth
                 <!-- Settings Dropdown -->
@@ -95,8 +94,8 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-            @endauth
 
+            @endauth
             <!-- Hamburger (Appears for both Guest and Auth on mobile) -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
@@ -116,13 +115,13 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        @auth
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
-                </x-responsive-nav-link>
-            </div>
 
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+        </div>
+        @auth
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">
@@ -147,20 +146,21 @@
                     </form>
                 </div>
             </div>
+
         @endauth
+        <!-- Guest Responsive Links (Mobile) -->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
+                {{ __('My recipes') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('about-us')" :active="request()->routeIs('about-us')">
+                {{ __('About us') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                {{ __('Contact') }}
+            </x-responsive-nav-link>
+        </div>
         @guest
-            <!-- Guest Responsive Links (Mobile) -->
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
-                    {{ __('My recipes') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('about-us')" :active="request()->routeIs('about-us')">
-                    {{ __('About us') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-                    {{ __('Contact') }}
-                </x-responsive-nav-link>
-            </div>
             <!-- Auth Links are at the bottom on mobile -->
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
@@ -172,4 +172,6 @@
             </div>
         @endguest
     </div>
+
 </nav>
+
