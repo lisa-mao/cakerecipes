@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -9,9 +10,10 @@ class HomeController extends Controller
     public function Home()
     {
         @dump(\Auth::check());
-        // alle
-        // $allRecipes =
-        return view('home');
+
+        $recipes = Recipe::all();
+        @dump($recipes);
+        return view('home', compact('recipes'));
     }
     public function Dashboard()
     {

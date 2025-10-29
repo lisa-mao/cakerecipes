@@ -14,7 +14,6 @@
                     </a>
                 </div>
                 <!-- Navigation Links -->
-                <!-- Increased spacing here (space-x-6) -->
                 <div class="hidden sm:flex space-x-6">
                     <x-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
                         {{ __('My recipes') }}
@@ -43,7 +42,7 @@
                 </div>
             </div>
             @guest
-                <!-- RIGHT SECTION: Auth Links -->
+
                 <!-- Increased spacing here (space-x-6) -->
                 <div class="hidden sm:flex items-center space-x-6">
                     <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
@@ -55,8 +54,16 @@
                 </div>
 
             @endguest
-            <!-- AUTHENTICATED NAVIGATION (Unmodified, but structurally repositioned for correctness) -->
+
             @auth
+
+                <div class="hidden sm:flex items-center space-x-6">
+                    <x-nav-link :href="route('recipes/create')" :active="request()->routeIs('create/recipe')">
+                        {{ __('Publish new Recipe') }}
+                    </x-nav-link>
+
+                </div>
+
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">

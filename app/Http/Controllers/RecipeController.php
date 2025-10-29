@@ -9,22 +9,21 @@ use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
-    public function show($id)
-    {
-        $recipe = new Recipe();
-//        $recipe = Recipe::findOrFail(1);
 
-        if (!$recipe) {
-            redirect('/');
-        }
-
-        $recipe->name = 'Chiffon Cake';
-        $recipe->time = 60;
-
-        return view('/recipes/show', compact('recipe'));
-
-
-    }
+//
+//    public function Show($id)
+//    {
+//
+//        $recipe = Recipe::find($id);
+//
+//        if (!$recipe) {
+//            redirect('/');
+//        }
+//
+//        return view('/recipes/show', compact('recipe'));
+//
+//
+//    }
 
 
     public function store(Request $request)
@@ -32,55 +31,91 @@ class RecipeController extends Controller
     {
 
 //        if(auth()->user()->isAdmin()){
-//
+
 //        }
         $request->validate([
-            'name' => 'required|max:100',
+
+            'title' => 'required|max:100|string',
+            'description' => 'required|max:100|string',
+
+            'total_time' => 'required|int',
+            'prep_time' => 'required|int',
+            'serving' => 'required|max:100|int',
+
             'category' => 'required'
         ]);
 
-        $recipe = new Recipe([
+        $recipe = new Recipe();
+        $recipe->title = $request->input('title');
+        $recipe->description = $request->input('description');
+        $recipe->total_time = $request->input('total_time');
+        $recipe->prep_time = $request->input('prep_time');
+        $recipe->serving = $request->input('serving');
+        $recipe->category = $request->input('category');
 
-            //validatie
+        auth()->id();
+        if (auth()->check()){
+            $recipe->user_id = auth()->id();
+            $recipe->save();
+
+            return redirect()->route('home')
+                ->with('Success', 'Recipe published successfully!');
+        }
+        else{
+            return redirect()->route('home');
+
+        }
 
 
-            'name' => request()->input('name', ''),
-            'instruction' => request()->input('instruction', ''),
-            'category' => request()->input('category', '')
 
-
-        ]);
-
-
-        return redirect()->route('home');
-//        $recipe->save();
-        //validatie
-//        $request->validate([
-//            'name' => 'required|max:100',
-//            'ingredient' => 'required'
-//        ]);
-//        //error tonen
-//
-
-//        $recipe->name = "choco cake";
-//        $recipe->time = 60;
-//        $recipe->ingredient = "choco and cake";
-//        $recipe->category = 2;
-//
-//
-
-//
-
-        //beveiliging
-        //data terug schrijven in de form fields
-        //
     }
 
-    public function create()
+
+//
+//
+    public function Create()
     {
 
 //        $categories = Category::all();
-//        return view('recipes.create', $categories);
+        return view('recipes.create');
     }
+//
+//    public function Edit($id)
+//    {
+//        $recipe = Recipe::find($id);
+////        $categories = Category::all();
+//        return view('recipes.create', compact('recipe'));
+//    }
+//
+//
+//    public function Update(Request $request, $id)
+//    {
+//        $request->validate([
+//
+//            'title' => 'required|max:100',
+//            'description' => 'required|max:100',
+//
+//            'total_time' => 'required|max:100',
+//            'prep_time' => 'required|max:100',
+//            'serving' => 'required|max:100',
+//
+//            'category' => 'required'
+//        ]);
+//
+//        $recipe = Recipe::find($id);
+//        $recipe->update($request->all());
+//
+//        return redirect()->route('home')
+//            ->with('success', 'Post updated successfully.');
+//    }
+//
+//    public function Destroy($id)
+//    {
+//        $recipe = Recipe::find($id);
+//        $recipe->delete();
+//        return redirect()->route('home')
+//            ->with('success', 'Post deleted successfully');
+//    }
+//
 
 }
