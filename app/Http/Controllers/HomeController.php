@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use App\Models\Category;
+use Database\Factories\CategoryFactory;
+use Hamcrest\Core\AllOf;
 use Illuminate\Http\Request;
+use function Pest\Laravel\get;
 
 class HomeController extends Controller
 {
@@ -11,9 +15,10 @@ class HomeController extends Controller
     {
         @dump(\Auth::check());
 
-        $recipes = Recipe::all();
-        @dump($recipes);
-        return view('home', compact('recipes'));
+        $recipes = Recipe::with('user')->get();
+        $categories = Category::all();
+
+        return view('home', compact('recipes', 'categories'));
     }
     public function Dashboard()
     {

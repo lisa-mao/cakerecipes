@@ -37,7 +37,7 @@ class RecipeController extends Controller
         //validation
         $validatedData = $request->validate([
 
-            'title' => 'required|max:100|string',
+            'title' => 'required|max:25|string',
             'description' => 'required|max:100|string',
 
             'total_time' => 'required|int',

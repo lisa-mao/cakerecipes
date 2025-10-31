@@ -1,7 +1,6 @@
 <x-layout>
 
-    <script defer src="{{ asset('js/checkbox.js') }}"></script>
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+
 
     <form action="{{route('recipes/store')}} " method="post"
           class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl space-y-6 mt-10">
@@ -93,7 +92,7 @@
 
             <!-- Chocolate -->
             <input type="checkbox" value="chocolate" name="category[]" id="chocolate" class="hidden">
-            <label for="chocolate" class="category-button ">Chocolate</label>
+            <label for="chocolate" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Chocolate</label>
 
             <!-- Fruity -->
             <input type="checkbox" value="fruity" name="category[]" id="fruity" class="hidden">
