@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Home</title>
 </head>
-@include('layouts/navigation')
+@include('layouts.navigation')
 
 <body class=", text-black" style="background-color: #E8DFCA">
 

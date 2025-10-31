@@ -9,8 +9,10 @@ use Illuminate\Notifications\Notifiable;
 
 class Category extends Model
 {
-    /** @use HasFactory<CategoryFactory> */
-    use HasFactory, Notifiable;
+
+    use HasFactory;
+
+    protected $fillable = ['name'];
     public function recipes()
     {
         return $this->belongsToMany(Recipe::class);

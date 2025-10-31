@@ -5,12 +5,12 @@ namespace App\Models;
 use Database\Factories\RecipeFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-//use App\Models\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Recipe extends Model
 {
-//    /** @use HasFactory<RecipeFactory> */
-//    use HasFactory, Notifiable;
+
+    use HasFactory;
 
 
     protected $fillable = [

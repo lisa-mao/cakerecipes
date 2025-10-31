@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Str;
 
 class RecipeController extends Controller
 {
@@ -33,7 +34,8 @@ class RecipeController extends Controller
 //        if(auth()->user()->isAdmin()){
 
 //        }
-        $request->validate([
+        //validation
+        $validatedData = $request->validate([
 
             'title' => 'required|max:100|string',
             'description' => 'required|max:100|string',
@@ -42,31 +44,51 @@ class RecipeController extends Controller
             'prep_time' => 'required|int',
             'serving' => 'required|max:100|int',
 
-            'category' => 'required'
+            'category' => 'nullable|array',
+            'category.*' => 'string|max:50'
         ]);
 
-        $recipe = new Recipe();
-        $recipe->title = $request->input('title');
-        $recipe->description = $request->input('description');
-        $recipe->total_time = $request->input('total_time');
-        $recipe->prep_time = $request->input('prep_time');
-        $recipe->serving = $request->input('serving');
-        $recipe->category = $request->input('category');
-
-        auth()->id();
-        if (auth()->check()){
-            $recipe->user_id = auth()->id();
-            $recipe->save();
-
-            return redirect()->route('home')
-                ->with('Success', 'Recipe published successfully!');
-        }
-        else{
+        if (!auth()->check()) {
             return redirect()->route('home');
-
         }
 
+        $recipe = new Recipe();
+        $recipe->user_id = auth()->id();
+        $recipe->title = $validatedData['title'];
+        $recipe->description = $validatedData['description'];
+        $recipe->total_time = $validatedData['total_time'];
+        $recipe->prep_time = $validatedData['prep_time'];
+        $recipe->serving = $validatedData['serving'];
 
+        $recipe->save(); // Save the recipe to get an ID
+
+        //use validated data or else default to an empty array
+        $selectedCategories = $validatedData['category'] ?? [];
+
+        if (!empty($validatedData))
+            $categoryIds = [];
+
+        //loop through each selected category value
+        foreach ($selectedCategories as $categorySlug) {
+
+            //format the slug into readable name
+            $formattedName = Str::title(str_replace('-', ' & ' , $categorySlug));
+
+            //find the category by name else create it
+            $category = Category::firstOrCreate(
+                ['name' => $formattedName]
+            );
+
+            //collect the id of the existing or newly created category
+            $categoryIds[] = $category->id;
+
+            //attach all found/created category ids to the newly created recipe
+            //this inserts rows into the 'category_recipe' pivot table
+            $recipe->categories()->sync($categoryIds);
+
+        }
+        return redirect()->route('home')
+            ->with('Success', 'Recipe published successfully!');
 
     }
 

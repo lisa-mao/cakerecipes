@@ -14,19 +14,15 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('title', 100);
+            $table->string('description', 100);
 
-            $table->string('title');
-            $table->string('total_time');
-            $table->string('description');
+            $table->unsignedSmallInteger('total_time');
+            $table->unsignedSmallInteger('prep_time');
+            $table->unsignedSmallInteger('serving');
 
-            $table->string('prep_time');
-            $table->string('serving');
-            $table->string('category');
-
-            $table->foreignId('category_id')->constrained();
 
             $table->rememberToken();
             $table->timestamps();

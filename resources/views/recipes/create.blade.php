@@ -1,8 +1,9 @@
 <x-layout>
 
+    <script defer src="{{ asset('js/checkbox.js') }}"></script>
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
-
-    <form action="{{route('recipes/store')}}" method="post"
+    <form action="{{route('recipes/store')}} " method="post"
           class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl space-y-6 mt-10">
         @csrf
         <h2 class="block text-xl font-medium text-gray-700 mb-1 ">Publish a Recipe</h2>
@@ -16,11 +17,11 @@
                 name="title"
                 id="title"
                 value="{{old('title')}}"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-[#E8DFCA] sm:text-sm"
 
                 placeholder="e.g., Spicy Chicken Tacos"
             >
-            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+            <x-input-error :messages="$errors->get('title')" class="mt-2"/>
         </div>
 
         <div>
@@ -31,10 +32,10 @@
                 name="description"
                 id="description"
                 rows="4"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-[#E8DFCA] sm:text-sm"
                 placeholder="e.g., Delicious Gluten-free Chocolate Cake"
             >{{old('description')}}</textarea>
-            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+            <x-input-error :messages="$errors->get('description')" class="mt-2"/>
         </div>
 
         <div>
@@ -47,10 +48,10 @@
                 name="total_time"
                 id="total_time"
                 value="{{old('total_time')}}"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-[#E8DFCA] sm:text-sm"
                 placeholder="e.g., 60 minutes"
             >
-            <x-input-error :messages="$errors->get('total_time')" class="mt-2" />
+            <x-input-error :messages="$errors->get('total_time')" class="mt-2"/>
         </div>
 
         <div>
@@ -63,10 +64,10 @@
                 name="prep_time"
                 id="prep_time"
                 value="{{old('prep-time')}}"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-[#E8DFCA] sm:text-sm"
                 placeholder="e.g., 15 minutes"
             >
-            <x-input-error :messages="$errors->get('prep_time')" class="mt-2" />
+            <x-input-error :messages="$errors->get('prep_time')" class="mt-2"/>
         </div>
 
         <div>
@@ -79,74 +80,55 @@
                 name="serving"
                 id="serving"
                 value="{{old('serving')}}"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-[#E8DFCA] sm:text-sm"
                 placeholder="e.g., 4 servings"
             >
-            <x-input-error :messages="$errors->get('serving')" class="mt-2" />
+            <x-input-error :messages="$errors->get('serving')" class="mt-2"/>
         </div>
 
+        <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+            Select your category(ies)</label>
 
-        <div>
+        <div class="flex flex-wrap justify-center gap-3">
 
-            <label for="categories" class="block text-sm font-medium text-gray-700 mb-1">
-                Category
-            </label>
-            <label for="chocolate" class="block text-sm font-medium text-gray-700 mb-1">
-                Amount of servings
-            </label>
-           <input type="checkbox" value="chocolate" name="chocolate" id="chocolate">
+            <!-- Chocolate -->
+            <input type="checkbox" value="chocolate" name="category[]" id="chocolate" class="hidden">
+            <label for="chocolate" class="category-button ">Chocolate</label>
 
-            <label for="fruity" class="block text-sm font-medium text-gray-700 mb-1">
-                Amount of servings
-            </label>
-            <input type="checkbox" value="fruity" name="fruity" id="fruity">
+            <!-- Fruity -->
+            <input type="checkbox" value="fruity" name="category[]" id="fruity" class="hidden">
+            <label for="fruity" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Fruity</label>
 
-            <label for="chocolate" class="block text-sm font-medium text-gray-700 mb-1">
-                Amount of servings
-            </label>
-            <input type="checkbox" value="chocolate" name="chocolate" id="chocolate">
+            <!-- White & Vanilla -->
+            <input type="checkbox" value="white_vanilla" name="category[]" id="white_vanilla" class="hidden">
+            <label for="white_vanilla" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">White & Vanilla</label>
 
-            <label for="chocolate" class="block text-sm font-medium text-gray-700 mb-1">
-                Amount of servings
-            </label>
-            <input type="checkbox" value="chocolate" name="chocolate" id="chocolate">
+            <!-- Cupcakes -->
+            <input type="checkbox" value="cupcakes" name="category[]" id="cupcakes" class="hidden">
+            <label for="cupcakes" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Cupcakes</label>
 
+            <!-- Bundt -->
+            <input type="checkbox" value="bundt" name="category[]" id="bundt" class="hidden">
+            <label for="bundt" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Bundt</label>
 
-               <option value="fruity">
-                   Fruity
-               </option>
-               <option value="white&vanilla">
-                   White & Vanilla
-               </option>
-               <option value="cupcakes">
-                   Cupcakes
-               </option>
+            <!-- Gluten-free -->
+            <input type="checkbox" value="glutenfree" name="category[]" id="glutenfree" class="hidden">
+            <label for="glutenfree" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Gluten-free</label>
 
-               <option value="bundt">
-                   Bundt
-               </option>
-               <option value="gluten_free">
-                   Gluten-free
-               </option>
-               <option value="diary_free">
-                   Diary-free
-               </option>
-
-
-           </select>
-            <x-input-error :messages="$errors->get('category')" class="mt-2" />
         </div>
+            <x-input-error :messages="$errors->get('category')" class="mt-2"/>
+
 
         <div class="space-y-3 pt-2">
             <button
                 type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#6D94C5] hover:bg-[#CBDCEB] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E8DFCA]"
             >
                 Submit Recipe
             </button>
 
             <a href="/{{ route('home') }}"
-               class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+               class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E8DFCA]"
             >
                 Back
             </a>
