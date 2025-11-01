@@ -11,20 +11,20 @@ use Str;
 class RecipeController extends Controller
 {
 
-//
-//    public function Show($id)
-//    {
-//
-//        $recipe = Recipe::find($id);
-//
-//        if (!$recipe) {
-//            redirect('/');
-//        }
-//
-//        return view('/recipes/show', compact('recipe'));
-//
-//
-//    }
+
+    public function Show($id)
+    {
+
+        $recipe = Recipe::find($id);
+
+        if (!$recipe) {
+            redirect('/');
+        }
+
+        return view('/recipes/show', compact('recipe'));
+
+
+    }
 
 
     public function store(Request $request)

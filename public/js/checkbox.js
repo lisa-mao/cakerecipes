@@ -1,9 +1,7 @@
-let checkbox = document.querySelector("#chocolate")
-let fruity = document.querySelector("#fruity")
 
 const buttons = document.querySelectorAll(".category-button")
 
-
+//toggles the input category in create to add the class active or remove
 buttons.forEach(button => {
     const input = document.getElementById(button.getAttribute('for'))
 
@@ -18,6 +16,10 @@ buttons.forEach(button => {
         }
     })
 })
+
+
+// let fruity = document.querySelector("#fruity")
+// let checkbox = document.querySelector("#chocolate")
 
 // checkbox.addEventListener("click", clicked)
 //      function clicked(){

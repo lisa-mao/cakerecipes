@@ -28,19 +28,10 @@
             </div>
 
 
-            <div class="flex-1 max-w-md hidden lg:block mx-16">
-                <div class="relative">
-                    <input type="search" placeholder="Search for recipes..."
-                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-lg shadow-sm py-2 px-4 pl-10 text-sm transition duration-150 ease-in-out">
-                    <!-- Search Icon -->
-                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </div>
-            </div>
+            <x-search-bar>
+
+            </x-search-bar>
+
             @guest
 
                 <!-- Increased spacing here (space-x-6) -->

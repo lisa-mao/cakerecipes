@@ -1,7 +1,5 @@
 <x-layout>
 
-
-
     <form action="{{route('recipes/store')}} " method="post"
           class="max-w-md mx-auto p-8 bg-white shadow-lg rounded-xl space-y-6 mt-10">
         @csrf
