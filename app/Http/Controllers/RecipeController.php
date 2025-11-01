@@ -101,43 +101,44 @@ class RecipeController extends Controller
 //        $categories = Category::all();
         return view('recipes.create');
     }
-//
-//    public function Edit($id)
-//    {
-//        $recipe = Recipe::find($id);
-////        $categories = Category::all();
-//        return view('recipes.create', compact('recipe'));
-//    }
-//
-//
-//    public function Update(Request $request, $id)
-//    {
-//        $request->validate([
-//
-//            'title' => 'required|max:100',
-//            'description' => 'required|max:100',
-//
-//            'total_time' => 'required|max:100',
-//            'prep_time' => 'required|max:100',
-//            'serving' => 'required|max:100',
-//
-//            'category' => 'required'
-//        ]);
-//
-//        $recipe = Recipe::find($id);
-//        $recipe->update($request->all());
-//
-//        return redirect()->route('home')
-//            ->with('success', 'Post updated successfully.');
-//    }
-//
-//    public function Destroy($id)
-//    {
-//        $recipe = Recipe::find($id);
-//        $recipe->delete();
-//        return redirect()->route('home')
-//            ->with('success', 'Post deleted successfully');
-//    }
-//
+
+    public function Edit($id)
+    {
+        $recipe = Recipe::find($id);
+        $categories = Category::all();
+        return view('recipes.create', compact('recipe'));
+    }
+
+
+    public function Update(Request $request, $id)
+    {
+        $request->validate([
+
+            'title' => 'required|max:100',
+            'description' => 'required|max:100',
+
+            'total_time' => 'required|max:100',
+            'prep_time' => 'required|max:100',
+            'serving' => 'required|max:100',
+
+            'category' => 'required'
+        ]);
+
+        $recipe = Recipe::find($id);
+        $recipe->update($request->all());
+
+        return redirect()->route('home')
+            ->with('success', 'Post updated successfully.');
+    }
+
+    public function Destroy($id)
+    {
+        @dump($id);
+        $recipe = Recipe::find($id);
+        $recipe->delete();
+        return redirect()->route('home')
+            ->with('success', 'Post deleted successfully');
+    }
+
 
 }

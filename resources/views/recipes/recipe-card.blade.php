@@ -1,1 +1,0 @@
-@dump(\Pest\Laravel\post());
