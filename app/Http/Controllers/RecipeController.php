@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,9 +21,9 @@ class RecipeController extends Controller
 
     public function Show($id)
     {
-
         $recipe = Recipe::find($id);
 
+        //check
         if (!$recipe) {
             redirect('/');
         }

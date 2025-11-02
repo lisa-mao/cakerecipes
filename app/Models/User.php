@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -34,11 +38,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isAdmin() : Boolean
-    {
-       return $this->admin === 1;
-    }
-
     /**
      * Get the attributes that should be cast.
      *
@@ -52,8 +51,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function recipes()
+    public function recipes(): HasMany
     {
         return $this->hasMany(Recipe::class);
+    }
+
+    public function comments(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class);
     }
 }

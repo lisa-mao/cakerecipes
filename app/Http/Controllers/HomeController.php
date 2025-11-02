@@ -2,22 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Recipe;
 use App\Models\Category;
 use Database\Factories\CategoryFactory;
 use Hamcrest\Core\AllOf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use function Laravel\Prompts\select;
 use function Pest\Laravel\get;
 use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {
+    private const minCommentsForUpload = 5;
+
+    public static function getMinCommentsForUpload(): int
+    {
+        return self::minCommentsForUpload;
+    }
     public function Home()
     {
         $query = Recipe::orderBy('created_at', 'desc');
 
-        @dump(\Auth::check());
+        $canUploadRecipe = false;
+        $commentCount = 0; //default
+        $minComments = self::minCommentsForUpload;
+
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->role === 1) {
+                $canUploadRecipe = true;
+            } else {
+
+
+                $commentCount = Comment::where('user_id', $user->id)->count();
+
+                if ($commentCount >= self::minCommentsForUpload) {
+                    $canUploadRecipe = true;
+                }
+            }
+        }
         //search filter
         if (request()->has('search')) {
             //column name:where specific in the column,
@@ -48,7 +75,7 @@ class HomeController extends Controller
         //fetch all category labels for the filter labels
         $categories = Category::all();
 
-        return view('home', compact('recipes', 'categories'));
+        return view('home', compact('recipes', 'categories', 'canUploadRecipe', 'commentCount','minComments'));
     }
 
     public function Dashboard()

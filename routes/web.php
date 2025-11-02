@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProfileController;
@@ -47,6 +49,9 @@ Route::delete('recipes/delete/{recipe}', [RecipeController::class, 'Destroy'])->
 Route::get('recipes/toggle-status/{recipe}', [RecipeController::class, 'ToggleStatus'])->name('recipes/toggle-status')
     ->middleware(['auth', 'verified']);
 
+//for comments
+Route::post('recipes/store-comment/{recipe}', [CommentController::class, 'Store'])->name('recipes/comment-store')
+    ->middleware(['auth', 'verified']);
 
 
 

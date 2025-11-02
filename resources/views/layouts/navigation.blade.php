@@ -48,13 +48,6 @@
 
             @auth
 
-                <div class="hidden sm:flex items-center space-x-6">
-                    <x-nav-link :href="route('recipes/create')" :active="request()->routeIs('create/recipe')">
-                        {{ __('Publish new Recipe') }}
-                    </x-nav-link>
-
-                </div>
-
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
