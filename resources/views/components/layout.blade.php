@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,8 +13,13 @@
 </head>
 @include('layouts.navigation')
 
-<body class=", text-black" style="background-color: #F5EFE6">
+<body class="min-h-screen flex flex-col text-black" style="background-color: #F5EFE6">
 
-{{$slot}}
+<main class="flex-grow">
+    {{$slot}}
+</main>
+
+<footer class="w-full bg-[#6D94C5] text-white p-4 text-center">footer</footer>
+
 </body>
 </html>

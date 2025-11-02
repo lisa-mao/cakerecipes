@@ -33,15 +33,20 @@ Route::post('recipes/store', [RecipeController::class, 'Store'])->name('recipes/
 Route::get('recipes/show/{recipe}', [RecipeController::class, 'Show'])->name('recipes/show')
     ->middleware(['auth', 'verified']);
 //returns the form for editing a recipe
-Route::get('recipes/edit/{recipe}', [RecipeController::class, 'Edit'])->name('recipes/edit')
+Route::get('recipes/edit/{recipe}', [RecipeController::class, 'Edit'])->name('recipes.edit')
     ->middleware(['auth', 'verified']);
 
 ////updates a recipe
-Route::get('recipes/update', [RecipeController::class, 'Update'])->name('recipes/update')
+Route::patch('recipes/update/{recipe}', [RecipeController::class, 'Update'])->name('recipes.update')
     ->middleware(['auth', 'verified']);
 //deletes a recipe
-Route::delete('recipes/{recipe}', [RecipeController::class, 'Destroy'])->name('recipes/destroy')
+Route::delete('recipes/delete/{recipe}', [RecipeController::class, 'Destroy'])->name('recipes/destroy')
     ->middleware(['auth', 'verified']);
+
+//deletes a recipe
+Route::get('recipes/toggle-status/{recipe}', [RecipeController::class, 'ToggleStatus'])->name('recipes/toggle-status')
+    ->middleware(['auth', 'verified']);
+
 
 
 

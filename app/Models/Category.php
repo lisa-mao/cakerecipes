@@ -13,7 +13,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
-    public function recipes()
+    public function recipes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Recipe::class);
     }

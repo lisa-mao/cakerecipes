@@ -19,15 +19,15 @@ class Recipe extends Model
         'description',
         'prep_time',
         'serving',
-        'category',
+        'user_id'
 
     ];
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function categories ()
+    public function categories (): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }

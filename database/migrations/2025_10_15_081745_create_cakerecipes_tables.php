@@ -23,6 +23,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('prep_time');
             $table->unsignedSmallInteger('serving');
 
+            //active : false/true (default is false until admin makes it true)
+            $table->boolean('is_active')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

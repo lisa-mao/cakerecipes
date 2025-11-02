@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 use Str;
+use Throwable;
+use function Pest\Laravel\hasCredentials;
 
 class RecipeController extends Controller
 {
@@ -40,9 +46,9 @@ class RecipeController extends Controller
             'title' => 'required|max:25|string',
             'description' => 'required|max:100|string',
 
-            'total_time' => 'required|int',
-            'prep_time' => 'required|int',
-            'serving' => 'required|max:100|int',
+            'total_time' => 'required|integer',
+            'prep_time' => 'required|integer',
+            'serving' => 'required|max:100|integer',
 
             'category' => 'nullable|array',
             'category.*' => 'string|max:50'
@@ -72,7 +78,7 @@ class RecipeController extends Controller
         foreach ($selectedCategories as $categorySlug) {
 
             //format the slug into readable name
-            $formattedName = Str::title(str_replace('-', ' & ' , $categorySlug));
+            $formattedName = Str::title(str_replace('-', ' & ', $categorySlug));
 
             //find the category by name else create it
             $category = Category::firstOrCreate(
@@ -102,43 +108,127 @@ class RecipeController extends Controller
         return view('recipes.create');
     }
 
-    public function Edit($id)
+    private function isAuthorizedToModify(Recipe $recipe): bool
     {
-        $recipe = Recipe::find($id);
-        $categories = Category::all();
-        return view('recipes.create', compact('recipe'));
+        // Safety check: if no user is authenticated, deny access.
+        if (!Auth::check()) {
+            return false;
+        }
+
+        // 1. Check if the user is an ADMIN (role = 1)
+        // If the user's 'role' column is 1, they are authorized.
+        if (Auth::user()->role === 1) {
+            return true;
+        }
+
+        // 2. Check if the user is the OWNER
+        // If the authenticated user's ID matches the recipe's user_id, they are authorized.
+        if (Auth::id() === $recipe->user_id) {
+            return true;
+        }
+
+        // 3. If neither Admin nor Owner, deny access
+        return false;
     }
 
 
-    public function Update(Request $request, $id)
+    public function Edit(Request $request, Recipe $recipe, User $user)
     {
-        $request->validate([
 
-            'title' => 'required|max:100',
-            'description' => 'required|max:100',
+        if (!$this->isAuthorizedToModify($recipe)) {
+            return redirect()->route('home', $recipe)
+                ->with('error', 'You are not authorized to edit this recipe.');
+        } else
 
-            'total_time' => 'required|max:100',
-            'prep_time' => 'required|max:100',
-            'serving' => 'required|max:100',
+            // Eager load the categories relationship to retrieve the recipe and its current categories
+            $recipe = Recipe::with('categories')->find($recipe->id);
 
-            'category' => 'required'
+        // Get all available categories (assuming this returns a Collection of Category models)
+        $categories = Category::all();
+
+
+        //get all categories names associated with the recipe
+        $currentCategoryNames = $recipe->categories->pluck('name')->toArray();
+
+        // Pass all necessary variables to the view
+        @dump($categories, $currentCategoryNames);
+        return view('recipes.edit', compact('recipe', 'categories', 'currentCategoryNames'));
+    }
+
+
+    /**
+     * @throws Throwable
+     */
+    public
+    function Update(Request $request, Recipe $recipe)
+    {
+        $validatedData = $request->validate([
+
+            'title' => 'required|max:25|string',
+            'description' => 'required|max:100|string',
+
+            'total_time' => 'required|integer',
+            'prep_time' => 'required|integer',
+            'serving' => 'required|max:100|integer',
+
+            'category' => 'nullable|array',
+            'category.*' => 'string|max:50'
         ]);
 
-        $recipe = Recipe::find($id);
-        $recipe->update($request->all());
+        // 2. Wrap the update and sync in a database transaction
+        // This ensures the recipe update commits the ID before the sync runs.
+        DB::transaction(function () use ($request, $recipe) {
+
+            // 2a. Update the main Recipe fields
+            $recipe->update($request->except('category'));
+
+            // 2b. Handle Category Synchronization (Pivot Table Update)
+            $submittedCategoryNames = $request->category ?? [];
+
+            if (!empty($submittedCategoryNames)) {
+                // Convert the submitted names (slugs) back into IDs from the database
+                $categoryIds = Category::whereIn('name', $submittedCategoryNames)->pluck('id');
+
+                // Synchronize the pivot table: detach removed categories, attach new ones.
+                $recipe->categories()->sync($categoryIds);
+            } else {
+                // If no categories were submitted, detach all categories
+                $recipe->categories()->sync([]);
+            }
+        });
 
         return redirect()->route('home')
-            ->with('success', 'Post updated successfully.');
+            ->with('success', 'Post updated successfully.!!');
     }
 
-    public function Destroy($id)
+    public function Destroy(Recipe $recipe)
     {
-        @dump($id);
-        $recipe = Recipe::find($id);
+        if (!static::isAuthorizedToModify($recipe)) {
+            return redirect()->route('home', $recipe)
+                ->with('error', 'You are not authorized to delete this recipe.');
+        }
+
+
+        Recipe::find($recipe);
         $recipe->delete();
         return redirect()->route('home')
             ->with('success', 'Post deleted successfully');
+
+
     }
 
+    public function ToggleStatus(Recipe $recipe)
+    {
+        if (auth()->user()->role !== 1) {
+            return redirect()->route('home', $recipe)
+                ->with('error', 'You are not authorized to delete this recipe.');
+        }
 
+        $recipe->is_active = !$recipe->is_active;
+        $recipe->save();
+
+        $recipe->refresh();
+
+        return redirect()->route('dashboard', compact('recipe'));
+    }
 }
