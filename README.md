@@ -1,4 +1,4 @@
-BACKLOG
+CHANGELOG
 
 15/10 --
 initial commit uitgevoerd.
@@ -38,3 +38,4 @@ Het filteren werkt nu wel en je kan een recept verwijderen(ik heb daarvoor een b
 2/11 --
 Je kan het recept nu ook editen (zonder categoriën) en de admin kan het recept nu togglen (active/ niet active)
 Ik heb een hele commentsection aangemaakt en ervoor gezorgd dat je eerst 5 comments moet plaatsen om een recept te kunnen uploaden.
+Alle files geupload zodat mijn repository dit ook heeft.
