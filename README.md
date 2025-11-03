@@ -1,4 +1,4 @@
-BACKLOG
+CHANGELOG
 
 15/10 --
 initial commit uitgevoerd.
