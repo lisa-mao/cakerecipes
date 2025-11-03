@@ -46,6 +46,7 @@ RUN composer install
 
 Run the necessary Laravel setup commands (key generation and configuration caching)
 
+
 RUN php artisan key:generate --force
 
 && php artisan config:cache
