@@ -1,9 +1,9 @@
 <x-layout>
-    <div class="flex pl-6 justify-center m-20 flex-col justify-center">
+    <div class="flex pl-6 justify-center m-10 flex-col">
         @auth()
-            <div class="justify-items-center">
+            <div class="flex justify-center items-center ">
                 @if($canUploadRecipe === true)
-                    <a class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-lg shadow-md text-white bg-[#6D94C5] hover:bg-[#6D94C5] transition duration-150 whitespace-nowrap"
+                    <a class="inline-flex items-center px-4 py-2 mb-3 border border-transparent text-sm font-bold rounded-lg shadow-md text-white bg-[#6D94C5] hover:bg-[#6D94C5] transition duration-150 whitespace-nowrap"
                        href="{{ route('recipes/create') }}">
                         {{ __('Publish new Recipe') }}
                     </a>
@@ -22,18 +22,19 @@
             </div>
 
             <div class="justify-items-center">
-                <h2 class="text-xl">Published Recipes</h2>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#6D94C5] mb-4">
+                    Published Recipes
+                </h1>
             </div>
 
             <div class="justify-items-center">
                 <p>Filter</p>
             </div>
 
-            <div class="flex justify-row justify-center p-4 ">
+            <div class="flex justify-row justify-center p-4">
                 <!--form auto submits because of the checkbox -->
                 <form id="category-filter-form" action="/" method="get">
                     @foreach($categories as $category)
-                        <!--the checkbox has a hidden onchange eventlistener -->
                         <input type="checkbox" value="{{$category->id}}" name="categories[]"
                                id="category-{{$category->id}}"
                                class="hidden"
@@ -50,84 +51,49 @@
             </div>
     </div>
 
-    <body class="flex flex-box flex-col items-center justify-start min-h-screen px-4 py-8 sm:p-8">
+    <body class="flex flex-box flex-col items-center justify-start min-h-screen px-4 py-4 sm:p-8">
 
-    <!-- Grid Layout for multiple cards - ADDED mx-auto for centering -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl mx-auto ">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-4 gap-8 w-full max-w-7xl mx-auto">
+        @foreach ($recipes as $recipe)
+            @if($recipe->is_active == 1)
+                <a href="/recipes/show/{{ $recipe->id }}" class="group">
+                    <div class="p-6 h-full flex flex-col border-solid border-4 border-[#6D94C5] bg-gray-100 group-hover:bg-[#6D94C5] group-hover:text-white transition-all duration-300 ease-in-out hover:scale-105 rounded-xl shadow-md">
 
-        @php foreach ($recipes as $recipe):
+                        <h2 class="text-sm font-medium text-gray-500 group-hover:text-blue-100">By: {{ $recipe->user->name }}</h2>
+                        <h2 class="text-2xl font-extrabold mb-2">{{ $recipe->title }}</h2>
 
-        @endphp
-        @if($recipe->is_active === 1)
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            @foreach ($recipe->categories as $category)
+                                <span class="px-3 py-1 text-xs font-bold rounded-full bg-[#6D94C5] text-white border border-white/20">
+                                {{ $category->name }}
+                            </span>
+                            @endforeach
+                        </div>
 
-            <!-- The clickable card (<a>) is now the direct grid item, making the structure cleaner. -->
-            <a href="/recipes/show/{{$recipe['id']}}"
-               class="block group transform transition duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.03] focus:outline-none focus:ring-4 focus:ring-[#6D94C5] rounded-xl overflow-hidden shadow-lg bg-white h-full">
+                        <p class="text-gray-700 group-hover:text-white/90 text-sm leading-relaxed flex-grow mb-6 line-clamp-3">
+                            {{ $recipe->description }}
+                        </p>
 
-                <!-- Recipe Content -->
-                <div class="p-6 h-full flex flex-col ">
-                    <h2>By: {{$recipe->user->name}}</h2>
-                    <!-- Header: Title and Quick Info Badge -->
-                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex justify-between items-center pt-4 border-t border-[#6D94C5]/30 group-hover:border-white/30 text-xs font-bold uppercase tracking-wider">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] opacity-70">Total Time</span>
+                                <span>{{ $recipe->total_time }} </span>
+                            </div>
 
-                        <!-- Title (Dynamic) -->
-                        <h2 class="text-2xl font-extrabold text-gray-900 group-hover:text-[#6D94C5] transition duration-300 pr-4 'flex-grow', 'min-w-0', and 'mr-2'">
-                            {{ $recipe['title'] }}
-                        </h2>
-                        <!-- Quick Info Badge (Total Time - Dynamic) -->
-                        <div
-                            class="flex-shrink-0 bg-[#6D94C5] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md mt-1">
-                            {{ $recipe['total_time'] }} minutes
+                            <div class="flex flex-col border-x border-[#6D94C5]/30 group-hover:border-white/30 px-4">
+                                <span class="text-[10px] opacity-70">Prep</span>
+                                <span>{{ $recipe->prep_time }} </span>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <span class="text-[10px] opacity-70">Servings</span>
+                                <span>{{ $recipe->serving }} pers.</span>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Categories -->
-                    <div class="flex flex-wrap gap-2 mb-3">
-                        @php foreach ($recipe['categories'] as $category):
-
-                        $colorClass = match($category['color']) {
-                            default => 'bg-gray-100 text-gray-800',
-                        };
-                        @endphp
-                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
-                        {{ $category['name'] }}
-                    </span>
-                        @php endforeach; @endphp
-                    </div>
-
-                    <!-- Description (Dynamic) -->
-                    <p class="text-gray-600 mb-4 text-sm line-clamp-3 flex-grow">
-                        {{ $recipe['description'] }}
-                    </p>
-
-                    <!-- Details/Metadata -->
-                    <div class="flex justify-between items-center text-sm text-gray-500 border-t pt-4 mt-auto">
-                        <!-- Preparation Time (Dynamic) -->
-                        <div class="flex items-center space-x-2">
-                            <!-- Time Icon (using SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#6D94C5]" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span>Prep: {{ $recipe['prep_time'] }} minutes</span>
-                        </div>
-                        <!-- Servings Count (Dynamic) -->
-                        <div class="flex items-center space-x-2">
-                            <!-- Servings Icon (using SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#6D94C5]" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            <span>Serves {{ $recipe['serving'] }} people</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        @endif
-        @php endforeach; @endphp
-
+                </a>
+            @endif
+        @endforeach
     </div>
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>

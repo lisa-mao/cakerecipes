@@ -1,29 +1,5 @@
 
-FROM php:8.2-fpm-alpine as base
-
-RUN apk add --no-cache
-
-curl
-
-mysql-client
-
-git
-
-supervisor
-
-nginx
-
-$PHPIZE_DEPS
-
-&& docker-php-ext-install pdo_mysql opcache
-
-&& docker-php-ext-enable opcache
-
-WORKDIR /app
-
-Copy the core application files/
-
-COPY . /app
+FROM php:8.2-fpm-alpine As base
 
 Run Composer install to download all dependencies
 

@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comment extends Model
 {
     use HasFactory;
-
-    // These fields are allowed to be mass-assigned from the form
     protected $fillable = [
         'user_id',
         'recipe_id',

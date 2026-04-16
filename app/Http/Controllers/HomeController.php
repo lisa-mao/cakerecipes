@@ -70,7 +70,7 @@ class HomeController extends Controller
         }
 
         //execute final query, eager loading the user relationship and paginate
-        $recipes = $query->with('user')->paginate(9);
+        $recipes = $query->with('user')->get();
 
         //fetch all category labels for the filter labels
         $categories = Category::all();
@@ -85,10 +85,6 @@ class HomeController extends Controller
 
         //search filter
         if (request()->has('search')) {
-            //column name:where specific in the column,
-            // operator: a string that specifies the comparison operator, like = searches for part of the string given
-            // value = the value that the column must be compared against
-            //% sql wildcard (match any sequence of zero or more characters)
             $query = $query->where('title', 'like', '%' . request()->get('search') . '%');
         }
 
@@ -108,7 +104,7 @@ class HomeController extends Controller
         }
 
         //execute final query, eager loading the user relationship and paginate
-        $recipes = $query->with('user')->paginate(9);
+        $recipes = $query->with('user')->get();
 
         //fetch all category labels for the filter labels
         $categories = Category::all();
@@ -144,9 +140,18 @@ class HomeController extends Controller
     }
 
 
-    public function My_recipes()
-    {
-        return view('/my-recipes');
+    public function My_recipes() {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        $recipes = Recipe::where('user_id', auth()->id())
+            ->with('categories')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('/my-recipes', compact('recipes'));
+
     }
 
 

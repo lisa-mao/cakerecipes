@@ -90,27 +90,27 @@
 
             <!-- Chocolate -->
             <input type="checkbox" value="chocolate" name="category[]" id="chocolate" class="hidden">
-            <label for="chocolate" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Chocolate</label>
+            <label tabindex="0"  for="chocolate" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Chocolate</label>
 
             <!-- Fruity -->
             <input type="checkbox" value="fruity" name="category[]" id="fruity" class="hidden">
-            <label for="fruity" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Fruity</label>
+            <label tabindex="0"  for="fruity" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Fruity</label>
 
             <!-- White & Vanilla -->
             <input type="checkbox" value="white_vanilla" name="category[]" id="white_vanilla" class="hidden">
-            <label for="white_vanilla" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">White & Vanilla</label>
+            <label tabindex="0"  for="white_vanilla" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">White & Vanilla</label>
 
             <!-- Cupcakes -->
             <input type="checkbox" value="cupcakes" name="category[]" id="cupcakes" class="hidden">
-            <label for="cupcakes" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Cupcakes</label>
+            <label tabindex="0"  for="cupcakes" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Cupcakes</label>
 
             <!-- Bundt -->
             <input type="checkbox" value="bundt" name="category[]" id="bundt" class="hidden">
-            <label for="bundt" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Bundt</label>
+            <label tabindex="0"  for="bundt" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Bundt</label>
 
             <!-- Gluten-free -->
             <input type="checkbox" value="glutenfree" name="category[]" id="glutenfree" class="hidden">
-            <label for="glutenfree" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Gluten-free</label>
+            <label tabindex="0"  for="glutenfree" class="category-button bg-white rounded p-0.5 border-gray-300 border-2">Gluten-free</label>
 
         </div>
             <x-input-error :messages="$errors->get('category')" class="mt-2"/>
@@ -131,11 +131,6 @@
             </a>
         </div>
     </form>
-    {{--        <select name="category_id" id="">--}}
-    {{--            @foreach($categories as $category)--}}
-    {{--                <option value="{{$category->id}}"></option>--}}
-    {{--            @endforeach--}}
-    {{--        </select>--}}
 
 </x-layout>
 

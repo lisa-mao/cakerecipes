@@ -1,19 +1,13 @@
 <nav x-data="{ open: false }" class="bg-[#CBDCEB] border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Main flex container for desktop layout -->
         <div class="flex justify-between items-center h-16">
 
-
-            <!-- LEFT SECTION: Logo and Main Links -->
             <div class="flex items-center space-x-8">
-                <!-- Logo -->
                 <div class="shrink-0">
                     <a href="{{ route('home') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
                     </a>
                 </div>
-                <!-- Navigation Links -->
                 <div class="hidden sm:flex space-x-6">
                     <x-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
                         {{ __('My recipes') }}
@@ -27,14 +21,11 @@
                 </div>
             </div>
 
-
             <x-search-bar>
-
             </x-search-bar>
 
             @guest
 
-                <!-- Increased spacing here (space-x-6) -->
                 <div class="hidden sm:flex items-center space-x-6">
                     <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
                         {{ __('Log in') }}
@@ -48,7 +39,6 @@
 
             @auth
 
-                <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -72,7 +62,6 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
-                            <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
@@ -87,7 +76,6 @@
                 </div>
 
             @endauth
-            <!-- Hamburger (Appears for both Guest and Auth on mobile) -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -104,7 +92,6 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
 
         <div class="pt-2 pb-3 space-y-1">
@@ -113,7 +100,7 @@
             </x-responsive-nav-link>
         </div>
         @auth
-            <!-- Responsive Settings Options -->
+
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -125,7 +112,6 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
-                    <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
@@ -139,7 +125,7 @@
             </div>
 
         @endauth
-        <!-- Guest Responsive Links (Mobile) -->
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('my-recipes')" :active="request()->routeIs('my-recipes')">
                 {{ __('My recipes') }}
@@ -152,7 +138,7 @@
             </x-responsive-nav-link>
         </div>
         @guest
-            <!-- Auth Links are at the bottom on mobile -->
+
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')">
                     {{ __('Log in') }}

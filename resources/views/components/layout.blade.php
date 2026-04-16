@@ -19,7 +19,7 @@
     {{$slot}}
 </main>
 
-<footer class="w-full bg-[#6D94C5] text-white p-4 text-center">footer</footer>
+<footer class="w-full bg-[#6D94C5] text-white p-4 text-center">@LoongCakes</footer>
 
 </body>
 </html>
