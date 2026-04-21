@@ -22,7 +22,7 @@ Phase 3: Community & Security. Integrated a robust comment system and establishe
 
 -Key Learning Moments
 
-Database Refactoring: Learned the importance of a solid ERD after realizing a single column for ingredients wasn't sufficient for complex filtering.
+Database Refactoring: Learned the importance of a solid ERD after realizing a single column for ingredients wasn't sufficient for complex filtering which resulted in me redoing it.
 
 Admin Workflow: Implemented state management for recipes (Active vs. Inactive) to give administrators full control over public content.
 
